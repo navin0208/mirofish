@@ -4,6 +4,7 @@ WORKDIR /app/frontend
 COPY frontend/package*.json ./
 RUN npm ci
 COPY frontend/ ./
+COPY locales/ /app/locales/
 RUN npm run build
 
 # --- Stage 2: Final Production Image ---
