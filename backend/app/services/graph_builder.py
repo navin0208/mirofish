@@ -503,4 +503,3 @@ class GraphBuilderService:
     def delete_graph(self, graph_id: str):
         """删除图谱"""
         self.client.graph.delete(graph_id=graph_id)
-

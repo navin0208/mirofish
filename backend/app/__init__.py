@@ -72,6 +72,18 @@ def create_app(config_class=Config):
     @app.route('/health')
     def health():
         return {'status': 'ok', 'service': 'MiroFish Backend'}
+
+    # 静态文件服务 (用于生产环境单容器部署)
+    # 将前端构建后的 dist 目录映射到根路径
+    @app.route('/', defaults={'path': ''})
+    @app.route('/<path:path>')
+    def serve_frontend(path):
+        from flask import send_from_directory
+        dist_dir = os.path.abspath(os.path.join(app.root_path, '../../frontend/dist'))
+        if path != "" and os.path.exists(os.path.join(dist_dir, path)):
+            return send_from_directory(dist_dir, path)
+        else:
+            return send_from_directory(dist_dir, 'index.html')
     
     if should_log_startup:
         logger.info("MiroFish Backend 启动完成")
